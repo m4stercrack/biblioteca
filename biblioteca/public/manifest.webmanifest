@@ -1,6 +1,7 @@
 {
   "name": "biblioteca",
   "short_name": "biblioteca",
+  "id": "/",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

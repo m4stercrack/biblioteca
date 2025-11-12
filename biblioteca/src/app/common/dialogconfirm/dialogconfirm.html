@@ -1,0 +1,30 @@
+<div class="contenedor">
+
+    <h1 mat-dialog-title>{{ this.titulo }}</h1>
+    <mat-dialog-content>
+      {{ this.mensaje }}
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button
+        mat-raised-button
+        color="warn"
+        mat-dialog-close
+        cdkFocusInitial
+        (click)="onConfirm()"
+      >
+        Aceptar
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        mat-dialog-close
+        (click)="onCancel()"
+      >
+        Cancelar
+      </button>
+    </mat-dialog-actions>
+  
+  
+  
+  </div>
+   

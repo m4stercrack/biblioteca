@@ -1,0 +1,109 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  [fullScreen]="true"
+>
+  <p style="font-size: 20px; color: white">Guardando...</p>
+</ngx-spinner>
+
+<div class="contenedor">
+  <!-- Botón cerrar -->
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+
+  <h2 mat-dialog-title class="titulo">📘 Datos del Libro</h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="formulario" class="formulario">
+
+      <!-- Código oculto -->
+      <mat-form-field class="campo oculto">
+        <mat-label>Código del libro</mat-label>
+        <input type="text" matInput formControlName="codigo" />
+      </mat-form-field>
+
+      <!-- Fila principal -->
+      <div class="fila-principal">
+
+        <!-- Portada -->
+        <div class="imagen">
+          <img [src]="imageSrc || 'img/book.png'" alt="Portada" />
+          <input
+            type="file"
+            id="file"
+            formControlName="portada"
+            (change)="onFileChange($event)"
+            hidden
+          />
+          <label for="file" class="btn-subir">📁 Subir portada</label>
+        </div>
+
+        <!-- Datos del libro -->
+        <div class="columna-datos">
+          <mat-form-field class="campo-titulo">
+            <mat-label>Título del libro</mat-label>
+            <input type="text" matInput formControlName="titulo" required />
+          </mat-form-field>
+
+          <div class="linea-doble">
+            <mat-form-field class="campo">
+              <mat-label>Editorial</mat-label>
+              <input type="text" matInput formControlName="editorial" required />
+            </mat-form-field>
+
+            <mat-form-field class="campo-pequeno">
+              <mat-label>N°págs</mat-label>
+              <input type="text" matInput formControlName="paginas" required />
+            </mat-form-field>
+          </div>
+
+          <!-- Autor -->
+          <div class="autores-container">
+            <mat-form-field class="autor-input">
+              <mat-label>Autor</mat-label>
+              <input type="text" matInput formControlName="autor" #autor />
+            </mat-form-field>
+
+            <button
+              mat-fab
+              color="primary"
+              class="icono"
+              type="button"
+              (click)="agregarlistautor(autor.value)"
+            >
+              <mat-icon>library_add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de autores -->
+      <div class="lista-autores">
+        <label>Autores agregados</label>
+        <ul>
+          <li *ngFor="let autor of autores; let i = index">
+            <button
+              mat-mini-fab
+              color="warn"
+              type="button"
+              (click)="eliminarlistaautor(i)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <span>{{ autor }}</span>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="acciones">
+    <button mat-raised-button color="primary" (click)="guardar()">
+      <mat-icon>save</mat-icon>
+      <span>Guardar</span>
+    </button>
+  </mat-dialog-actions>
+</div>

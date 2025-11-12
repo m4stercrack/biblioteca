@@ -1,0 +1,64 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white">Cargando...</p>
+</ngx-spinner>
+
+<nav class="navbar">
+  <h1 class="logo">Biblioteca</h1>
+  <!-- Botón hamburguesa -->
+  <button class="menu-toggle" (click)="menuAbierto = !menuAbierto">
+    <span [class.active]="menuAbierto">☰</span>
+  </button>
+
+  <!-- Contenedor del menú -->
+  <div class="user-controls" [class.abierto]="menuAbierto">
+
+    <!-- ✅ Menú cuando el usuario está logueado -->
+    <ng-container *ngIf="usuario; else noUsuario">
+      <div class="menu-opciones">
+        <button class="menu-btn" (click)="abrirDialogoNuevoLibro()">📘 Nuevo libro</button>       
+        <button class="menu-btn logout" (click)="cerrarSesion()">🚪 Cerrar sesión</button>
+        <div class=" avatar">
+          <span>🧑‍💻</span>
+          <span class="user">{{ usuario.email }}</span>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <!-- 🧑‍💻 Menú cuando NO hay usuario -->
+    <ng-template #noUsuario>
+      <button class="login-btn" routerLink="/login">Administrar</button>
+    </ng-template>
+
+  </div>
+</nav>
+
+<!-- Buscador fijo -->
+<div class="search-bar">
+  <div class="search-container">
+    <input [(ngModel)]="termino" (input)="buscar()" placeholder="Buscar por título, autor o código" class="search" />
+  </div>
+</div>
+
+<!-- Contenido principal -->
+<div class="container">
+  <div *ngIf="cargando" class="loader">Cargando libros...</div>
+
+  <div class="libros-grid" *ngIf="!cargando && libros.length">
+    <div *ngFor="let libro of libros" class="libro-card">
+      <img [src]="libro.portada" alt="{{ libro.titulo }}" class="portada" />
+      <h3>{{ libro.titulo }}</h3>
+      <p><strong>Autor(es):</strong> {{ libro.autores.join(', ') }}</p>
+      <p><strong>Editorial:</strong> {{ libro.editorial }}</p>
+      <p><strong>Páginas:</strong> {{ libro.paginas }}</p>
+
+      <!-- ✅ Botones visibles solo si hay sesión -->
+      <div *ngIf="usuario" class="acciones">       
+        <button class="btn-editar" (click)="editarLibro(libro)">Editar</button>
+        <button class="btn-eliminar" (click)="eliminarLibro(libro)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="!cargando && !libros.length">No se encontraron libros</p>
+</div>
